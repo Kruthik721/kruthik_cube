@@ -261,9 +261,13 @@ cubes:
         type: count_distinct
 
       - name: compliance
-        sql: "NULLIF({dispensed_patients_count}, 0) / NULLIF({active_patients_count}, 1) * 100"
+        sql: "NULLIF({dispensed_patients_count}, 0) / NULLIF({active_patients_count}, 1)"
         type: number
-        format: percent
+
+      - name: churn_rate
+        sql:  "CASE WHEN LAG({active_patients_count}) OVER (ORDER BY MONTH) IS NULL THEN NULL ELSE ({dropoff_patients_count} / LAG({active_patients_count}) OVER (ORDER BY MONTH)) END"
+        type: number
+
 
     pre_aggregations:
       # Pre-aggregation definitions go here.
