@@ -260,6 +260,10 @@ cubes:
         sql: "CASE WHEN {CUBE}.FLG='RST' THEN MDM_PAT_ID END"
         type: count_distinct
 
+      - name: compliance
+        sql: "NULLIF({dispensed_patients_count}, 0) / NULLIF({active_patients_count}, 1) * 100"
+        type: number
+        format: percent
 
     pre_aggregations:
       # Pre-aggregation definitions go here.
