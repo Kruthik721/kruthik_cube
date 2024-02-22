@@ -272,13 +272,13 @@ cubes:
         sql: "NULLIF({new_patients_count},0) + NULLIF({restart_patients_count},0) - NULLIF({dropoff_patients_count},0)"
         type: number
 
-      # - name: internal_switch
-      #   sql: "NULLIF({active_patients_count}, 0) - NULLIF(LAG({active_patients_count}) OVER (ORDER BY MONTH),0) - NULLIF({net_patient_gain}, 0) "
-      #   type: number
+      - name: internal_switch
+        sql: "CASE WHEN LAG({active_patients_count}) OVER (ORDER BY MONTH) IS NULL THEN NULL ELSE NULLIF({active_patients_count}, 0) - NULLIF(LAG({active_patients_count}) OVER (ORDER BY MONTH),0) - NULLIF({net_patient_gain}, 0) END"
+        type: number
 
-      # - name: active_previous_month
-      #   sql: "CASE WHEN LAG({active_patients_count}) OVER (ORDER BY MONTH) IS NULL THEN NULL ELSE LAG({active_patients_count}) OVER (ORDER BY MONTH) END"
-      #   type: number
+      - name: active_previous_month
+        sql: "CASE WHEN LAG({active_patients_count}) OVER (ORDER BY MONTH) IS NULL THEN NULL ELSE LAG({active_patients_count}) OVER (ORDER BY MONTH) END"
+        type: number
 
     pre_aggregations:
       # Pre-aggregation definitions go here.
