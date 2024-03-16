@@ -292,6 +292,10 @@ cubes:
         sql: "IFNULL({units_dispensed} / NULLIF({dispensed_patients_count}, 0), 0)"
         type: number
 
+      - name: shipped_volume
+        sql: MDM_PAT_ID
+        type: count
+
 
 
     pre_aggregations:
